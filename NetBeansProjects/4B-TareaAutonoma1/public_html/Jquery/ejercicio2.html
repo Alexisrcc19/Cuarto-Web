@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!--
+Como ampliación del ejercicio anterior, añade a los cinco botones, la posibilidad de
+elegir el cambio de color para el fondo del documento o para el fondo de una capa
+situada en la esquina superior derecha del documento. (sugerencia.- Usar un formulario
+del tipo type=’radio’ para elegir entre cambiar el documento o la capa).
+-->
+<html>
+    <head>
+        <title>Ejercicio 2</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function cambiaFondo() {
+                $('#document').click(function (event) {
+                    $('#rojo').click(function (event) {
+                        $('.body').css('background-color', 'red');
+                    });
+                });
+                $('#document').click(function (event) {
+                    $('#violeta').click(function (event) {
+                        $('.body').css('background-color', '#EE82EE');
+                    });
+                });
+                $('#document').click(function (event) {
+                    $('#amarillo').click(function (event) {
+                        $('.body').css('background-color', 'yellow');
+                    });
+                });
+                $('#document').click(function (event) {
+                    $('#verde').click(function (event) {
+                        $('.body').css('background-color', '#90EE90');
+                    });
+                });
+                $('#document').click(function (event) {
+                    $('#tomate').click(function (event) {
+                        $('.body').css('background-color', '#FF6347');
+                    });
+                });
+            });
+
+            $(document).ready(function cambiaFondo_capa() {
+                $('#capaq').click(function (event) {
+                    $('#rojo').click(function (event) {
+                        $('.capa').css('background-color', 'red');
+                    });
+                }
+                );
+                $('#capaq').click(function (event) {
+                    $('#violeta').click(function (event) {
+                        $('.capa').css('background-color', '#EE82EE');
+                    });
+                });
+                $('#capaq').click(function (event) {
+                    $('#amarillo').click(function (event) {
+                        $('.capa').css('background-color', 'yellow');
+                    });
+                });
+                $('#capaq').click(function (event) {
+                    $('#verde').click(function (event) {
+                        $('.capa').css('background-color', '#90EE90');
+                    });
+                });
+                $('#capaq').click(function (event) {
+                    $('#tomate').click(function (event) {
+                        $('.capa').css('background-color', '#FF6347');
+                    });
+                });
+            });
+        </script>
+        <style>
+            #capa{
+                float: right; 
+            }
+        </style>
+    </head>
+    <body class="body">
+        <div class="container">
+            <div id="capa" class="capa" style="width:99px;height: 99px"> </div>
+
+            <div > 
+                <form> 
+                    <h2> Cambiar el color a </h2>
+                    <div>
+                        <input type="radio" id="document" class="body" value="Documento" >Documento 
+                        <br>
+                        <br>    
+                        <input type="radio" id="capaq" class="capa" value="Esquina superior derecha">Esquina superior derecha
+                    </div>
+
+                    <br>
+                    <br>
+
+                    <h2>Seleccione un color </h2>
+                    <input type="button" id="rojo" value="Rojo">
+                    <input type="button" id="violeta" value="Violeta">
+                    <input type="button" id="amarillo" value="Amarillo">
+                    <input type="button" id="verde" value="Verde Claro">
+                    <input type="button" id="tomate" value="Tomate">
+
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

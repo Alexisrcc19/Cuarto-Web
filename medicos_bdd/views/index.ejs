@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html> 
+    <head>
+        <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" /> 
+        <meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <meta name="google" value="notranslate"> 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">   
+        <title><%= title %></title>
+        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script language="javascript" type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/localization/messages_es.js"></script>
+        <link rel="stylesheet" href="/stylesheets/tagsinput.css">
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+             https://firebase.google.com/docs/web/setup#config-web-app -->
+
+        <script>
+            // Your web app's Firebase configuration
+            var firebaseConfig = {
+                apiKey: "AIzaSyD03QZ6nycdkhp2YTu__WbXzLLHOuwtpdc",
+                authDomain: "test-592aa.firebaseapp.com",
+                databaseURL: "https://test-592aa.firebaseio.com",
+                projectId: "test-592aa",
+                storageBucket: "",
+                messagingSenderId: "194671866780",
+                appId: "1:194671866780:web:9df055a78c67dd4e"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            //-----------------firebase messagins-------------""
+            var messaging = firebase.messaging();
+            messaging.usePublicVapidKey("BASjGvUkwkhZqGSUanwvevogTgobRjMFOy4R1eQSwmjbgIs25KNuVRVbP7RyZbj9InVtNO3t-KEsokbJZxf9kY8");
+            messaging.requestPermission().then(function () {
+                console.log('Notification permission granted.');
+                messaging.getToken().then(function (currentToken) {
+                    if (currentToken) {
+                        console.log(currentToken);
+                        //Guardar TOken
+                    } else {
+                        console.log('No Instance ID token available. Request permission to generate one.');
+                    }
+
+                }).catch(function (err) {
+                    console.log('An error ocurred while retrieving token', err);
+                    showToken('Error retrieving INstance ID token', err);
+                    setTokenSentToServer(false);
+                });
+            }).catch(function (err) {
+                console.log('Unable to get permission to notify', err);
+            });
+            messaging.onMessage(function (payload) {
+                appendMessage(payload);
+            });
+
+            function appendMessage(payload) {
+                console.log(payload);
+                var notificacion = '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+                notificacion += '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+                notificacion += '<span aria-hidden="true">&times;</span>';
+                notificacion += '</button>';
+                notificacion += '<img src="' + payload.notification.icon + '"width="25"/><strong>' +
+                        payload.notification.title + '</strong>' +
+                        payload.notification.body + '.';
+                notificacion += '</div>';
+                $("#messages").html(notificacion);
+            }
+
+//curl https://fcm.googleapis.com/fcm/send --header "Authorization:key=AAAALVNY85w:APA91bEUiDZN-cHWkXOjWIfv7G-UwfNlwoLFRWAO9pmwcs6mQ-QQ7MEWP_kpQNJQd1DY1IA3GwjXX6OADcYunrdvcA_lGfAp5seOEmt1IGWPafuA2ho6fphoqs9DZQaDYbkmkwfqiOGe" --header "Content-Type:application/json" -d '{ "notification": { "title": "Bienvenido!", "body":"Felicidades!! Has recibido una notificación", "icon": "/user.png","click_action":"http://localhost:3000/" }, "to" : "doCcXTtf5uk:APA91bEp7HKkaLqXNVuLo7GIff_IzhnApO-39xB8AEGGFxmClCk6APJAk8NrzQZI8Cz6lOW7icikbOAc8hMGCsuz3FBhVGjxU0Vj4hvBvA-hzeNFF1-1QaPYfhSfIyiNEq92cy95rA2f" }'
+        </script>
+    </head> 
+    <body> 
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><%= title %></a>
+                </div>
+
+                <% if(typeof sesion == 'undefined' || (!sesion)) { %>
+                <div id="navbar" class="navbar-collapse collapse">          
+                    <form class="navbar-form navbar-right" method="POST" action="/inicio_sesion">
+                        <% if(typeof msg != 'undefined') {%>
+                        <% if(typeof msg.error != 'undefined' && msg.error.length > 0) { %>    
+                        <div class="form-group">
+                            <div class="label label-danger" style="font-size: 13px">
+                                <%= msg.error %>
+                            </div>                        
+                        </div>                  
+                        <% } %>
+                        <% if(typeof msg.ok != 'undefined' && msg.ok.length > 0) { %>    
+                        <div class="form-group">
+                            <div class="label label-success" style="font-size: 13px">
+                                <%= msg.ok %>
+                            </div>                        
+                        </div>                  
+                        <% } %>
+                        <% } %>
+                        <div class="form-group">
+                            <input type="text" placeholder="Correo" class="form-control" name="correo">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" placeholder="Clave" class="form-control" name="clave">
+                        </div>
+                        <button type="submit" class="btn btn-success">Iniciar sesion</button>
+                        <a href="/registromedico" class="btn btn-danger">Registrate</a>
+                    </form>
+                </div>
+                <% } else { %>
+                <div id="navbar" class="navbar-collapse collapse navbar-right">
+                    <a href="/administracion/foto" class="btn btn-primary btn-sm">Foto</a>
+                    <a href="/administracion/pacientes" class="btn btn-primary btn-sm">Pacientes</a>
+                    <a href="/administracion/consulta" class="btn btn-primary btn-sm">Consultas</a>
+                    <a href="/cerrar_sesion" class="btn btn-danger btn-sm" onclick="return confirm('Esta seguro de cerrar sesion?')">Cerrar sesion</a>
+                </div>          
+                <% } %>
+            </div>
+        </nav> 
+        <% if(typeof sesion == 'undefined' || (!sesion)) { %>
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Hello, world!</h1>
+                <p>
+                    This is a template for a simple marketing or informational website. It includes a large callout
+                    called a jumbotron and three supporting pieces of content. Use it as a starting point to create
+                    something more unique.
+                </p>
+                <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>Section 1</h2>
+                    <p>Some information for section 1</p>
+                    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h2>Section 2</h2>
+                    <p>Some information for section 2 </p>
+                    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h2>Section 3</h2>
+                    <p>Some information for section 1</p>
+                    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                </div>
+            </div>
+            <% } else { %>
+            <div class="jumbotron">
+
+                <br>
+
+                <%- include(fragmento) %>
+            </div>      
+            <% }  %>
+            <hr>
+
+            <footer>
+                <p>&copy; My App 2015</p>
+            </footer>
+        </div> <!-- /container -->
+
+
+    </body>
+
+</html>

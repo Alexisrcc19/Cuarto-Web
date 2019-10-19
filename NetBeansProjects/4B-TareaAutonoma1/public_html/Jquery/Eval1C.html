@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--
+Realiza un programa de nombre Eval1C.html, que funcione de la siguiente forma: a) El
+programa nos pregunta nuestro nombre. b) El programa nos pregunta nuestra edad. c)
+El programa da como resultado nuestro nombre y a continuación los días que hemos
+vivido hasta el momento (deberás multiplicar la edad por 365, los meses por 30)
+-->
+<html>
+    <head>
+        <title>Ejercicio 3</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
+        crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
+        crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+              crossorigin="anonymous">
+
+        <script>
+            $(document).ready(function () {
+                $('#caledad').click(function (event) {
+                    var edad = document.getElementById('edad').value;
+                    console.log(edad);
+                    var edad_en_dias = edad * 365;
+                    var nombre = document.getElementById('nombre').value;
+                    console.log(nombre);
+                    console.log(edad_en_dias);
+                    alert(nombre + " tu edad en dias es: " + edad_en_dias);
+                });
+            });
+
+        </script>
+
+    </head>
+    <body>
+        <h1 style="text-align:center">Bienvenido</h1>
+        <div class="container">
+            <form>
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre"  placeholder="Ingrese su nombre">
+                </div>
+                <div class="form-group">
+                    <label for="edad">Edad</label>
+                    <input type="number" class="form-control" id="edad" placeholder="Ingrese su edad">
+                </div>
+                <button type="button" class="btn btn-primary" id="caledad">Calcular edad en dias</button>
+                <br><br>
+                <button type="reset" class="btn btn-primary">Nuevo Calculo</button>
+            </form>
+
+
+        </div>
+
+    </body>
+</html>

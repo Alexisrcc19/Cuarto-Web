@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--
+Haz un programa que escriba todos los múltiplos de 23 inferiores a 1000 y por  ́ultimo
+nos de la suma de todos ellos.
+-->
+<html>
+    <head>
+        <title>Ejercicio 6</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#multi').click(function (event) {
+                    var suma = 0;
+                    for (var i = 23; i <= 1000; i = i + 23) {
+                        document.getElementById("num").value += i + "\n";
+                        suma += i;
+                    }
+                    alert("Suma de multiplos: " + suma);
+                });
+            });
+        </script>
+    </head>
+    <body>
+    <center>
+        <h3> Multiplos de 23 </h3>
+        <div class="container">
+            <textarea id="num" name="multiplos" rows="20" cols="50" ></textarea>
+        </div>
+        <div>
+            <input type="button" value="Generar multiplos" id="multi" >
+        </div>
+        </center>
+    </body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Registrar</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"  crossorigin="anonymous">
+        <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"  crossorigin="anonymous"></script>-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"  crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"  crossorigin="anonymous"></script>
+        <script language="javascript" type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script> 
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/localization/messages_es.js"></script>
+        <script src="javaScript/logicaPrueba.js"></script>
+        <style>
+            .error{
+                float: none; color: red; padding-left: .5em; vertical-align: middle; font-size: 12px; 
+            }
+        </style>
+        <script >
+            function validar() {
+
+                $("#formulario").validate({
+                    rules: {
+                        nombre: {
+                            required: true,
+                            minlength: 1,
+                            maxlength: 50
+                        },
+                        pais: {
+                            required: true
+                        },
+                        descripcion: {
+                            required: true
+                        },
+                        monto: {
+                            required: true,
+                            //float:true
+                        }
+                    },
+                    submitHandler: function () {
+                        registroProyectos();
+                    }
+                });
+            }
+
+
+            $(document).ready(function () {
+                listarProvincia();
+                listarDepartamentos();
+                validar();
+                $("#ffinal").change(function () {
+                    var mes = diferenciaMeses() ;
+                            //calcularEdad($("#fecha").val());
+                    $("#tiempo").val(mes);
+                });
+                
+                $("#monto").focusout(function () {
+                    carcularmonto(true,$("#monto").val());
+                });
+                
+                esExtranjero();
+                
+            });
+
+        </script>
+    </head>
+    <body>
+        <div class="nav justify-content-end">
+            <nav class="nav">
+                <a class="nav-link" href="#">Registrar Proyectos</a>
+                <a class="nav-link active" href="listarymodificar.html">Listar y Modificar</a>
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">BIENVENIDO</a>
+               </nav>
+        </div>
+        <form id="formulario">
+            <div class="form-group">
+    <label for="exampleFormControlSelect2">Example multiple select</label>
+    <select multiple class="form-control" id="exampleFormControlSelect2">
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select>
+  </div>
+            <div class="container"   style="height: 50%;width:30%;padding: 5%;" >
+                <div id="mensaje"></div>
+                <h3 style="text-align: center"> Registrar proyecto</h3>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nombre</label>
+                    <input type="text" class="form-control" id="nombre"  name="nombre"  placeholder="Nombre">
+                </div>
+               <div class="form-group" >
+                    <label for="exampleInputEmail1">Tipo de proyecto</label>
+                    <select class="custom-select" id="tipo" name="tipo" >
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Fecha de Inicio</label>
+                    <input type="date" class="form-control" id="finicio"  name="finicio"  >
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Fecha de finalizacion</label>
+                    <input type="date" class="form-control" id="ffinal"  name="ffinal"  >
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Tiempo en meses</label>
+                    <input type="text" class="form-control" id="tiempo"  name="tiempo"  readonly>
+                </div>
+                <div class="form-group" >
+                    <label for="exampleInputEmail1">Extranjero</label>
+                    <select class="custom-select" id="opciones" onchange="esExtranjero()">
+                        <optgroup label="EXtanjero" >
+                            <option id ="si" value="si" >Si</option>
+                            <option value="no">No</option>
+                        </optgroup>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Pais</label>
+                    <input type="text" class="form-control" id="pais"  name="pais"  placeholder="pais"
+                           style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                </div>
+
+
+                <div class="form-group" id="provinciadiv">
+                    <label for="exampleInputEmail1">Provincia</label>
+                    <select class="custom-select" id="provincia" name="provincia" onchange="listarCanton($('#provincia').val())">
+                    </select>
+                </div>
+                <div class="form-group" id="cantondiv">
+                    <label for="exampleInputEmail1">Canton</label>
+                    <select class="custom-select" id="canton" name="canton" >
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Descripcion</label>
+                    <input type="text" class="form-control" id="descripcion" name="descripcion" >
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Monto</label>
+                    <input type="number" step="any" class="form-control" id="monto" name="monto" >
+                    <small class="form-text text-muted">En caso de que el proyecto sea extranjero se le aplicara una tarifa extra del 20%  </small>
+                </div>
+                    <div class="form-group" id="monto2">
+                    <label for="exampleInputPassword1">Monto Extranjero</label>
+                    <input type="number" step="any" class="form-control" id="montoextranjero" name="monto" readonly>
+                </div>
+
+                <button type="submit" class="btn btn-primary" >Registrar</button>
+            </div>
+        </form>
+    </body>
+</html>

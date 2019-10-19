@@ -1,0 +1,52 @@
+<script src="/js/utilidades.js"></script>
+<script>
+    $(function () {
+        verificar();
+        $("#fecha_nac").change(function () {
+            var edad = calcularEdad($("#fecha_nac").val());
+            $("#edad").val(edad);
+        });
+    });
+</script>
+<br>
+
+<div class="container">    
+    <form action="/medico/registro" method="POST" class="form-box" id="formulario">
+        <h3 class="h4 text-black mb-4">Datos Personales</h3>
+        <div class="form-group">
+            <label for="cedula">Cedula</label>
+            <input type="text" class="form-control" id="cedula" name="cedula" aria-describedby="cedulaHelp" placeholder="Ingrese la cedula">
+        </div>
+        <div class="form-group">
+            <label for="apellidos">Apellidos</label>
+            <input type="text" class="form-control" id="apellidos" name="apellidos" aria-describedby="apellidosHelp" placeholder="Ingrese sus apellidos">
+        </div>
+        <div class="form-group">
+            <label for="nombres">Nombres</label>
+            <input type="text" class="form-control" id="nombres" name="nombres" aria-describedby="nombresHelp" placeholder="Ingrese sus nombres">
+            </div>
+        <div class="form-group">
+            <label for="fecha_nac">Fecha de nacimiento</label>
+            <input type="date" class="form-control" id="fecha_nac" name="fecha_nac" aria-describedby="fecha_nacHelp" placeholder="Ingrese la cedula">
+            </div>
+        <div class="form-group">
+            <label for="edad">Edad</label>
+            <input type="text" class="form-control" id="edad" name="edad" aria-describedby="edadHelp" placeholder="Ingrese su edad" readonly>
+            </div>
+
+        <div>            
+            <h3 class="h4 text-black mb-4">Datos de la cuenta</h3>           
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Correo electronico</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" name="correo" aria-describedby="emailHelp" placeholder="Ingrese el correo electronico personal">
+            </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Clave</label>
+            <input type="password" class="form-control" name="clave" id="exampleInputPassword1" placeholder="Clave">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Registrate</button>
+        <a href="/" class="btn btn-danger">Volver</a>
+    </form>
+</div>

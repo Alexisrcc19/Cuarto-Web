@@ -1,0 +1,42 @@
+<div class="container" style="margin-top: 20px;">    
+    <div class="panel panel-primary">
+        <div class="panel-heading">Listado de pacientes</div>
+          </div>
+            <% if(typeof msg != 'undefined') { %>
+            <% if(typeof msg.error != 'undefined' && msg.error.length > 0) { %>
+            <div class="form-group">
+                <div class="label label-danger" style="font-size: 12px">
+                    <%= msg.error %>
+                </div>                        
+            </div>                  
+            <% } %>
+            <% if(typeof msg.info != 'undefined' && msg.info.length > 0) { %>
+            <div class="form-group">
+                <div class="label label-success" style="font-size: 12px">
+                    <%= msg.info %>
+                </div>                        
+            </div>                  
+            <% } %>
+            <% } %>
+        <div class="panel-body">
+            <% if(persona.foto === 'user.png') { %>
+            <img src="/img/<%= persona.foto %>" width="100"/>
+            <% }else{ %>
+            <img src="/uploads/<%= persona.foto %>" width="150" height="150"/>
+            <% } %>
+            <picture>
+                <div class="panel panel-warning">
+                    <div class="panel-heading">SUbir foto</div>
+                    <div class="panel-body">
+                        <form enctype="multipart/form-data" method="POST" action="/administracion/foto/subir">
+                            <input type="hidden" value="<%= persona.external_id %>" name="external"/>
+                            <input type="file" name="archivo" />
+                            <input type="submit" value="SUbir Foto" />
+                        </form>
+                    </div>
+                </div>                   
+
+        </picture>
+    </div>
+</div>
+</div>

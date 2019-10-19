@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"  crossorigin="anonymous">
+        <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"  crossorigin="anonymous"></script>-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"  crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"  crossorigin="anonymous"></script>
+        <script language="javascript" type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script> 
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/localization/messages_es.js"></script>
+        <script src="javaScript/logicaPrueba.js"></script>
+        <style>
+            .error{
+                float: none; color: red; padding-left: .5em; vertical-align: middle; font-size: 12px; 
+            }
+        </style>
+        <script>
+            function validar() {
+                $.validator.addMethod('soloLetras', function (value, element) {
+                    return this.optional(element) || /^[a-ñ-z\s]+$/i.test(value);
+                }, 'Solo letras');
+
+                $("#formulario").validate({
+                    rules: {
+                        nombre: {
+                            required: true,
+                            minlength: 1,
+                            maxlength: 50,
+                            soloLetras: true
+                        },
+                        pais: {
+                            required: true
+                        },
+                        descripcion: {
+                            required: true
+                        },
+                        monto: {
+                            required: true,
+                            //float:true
+                        }
+                    },
+                    submitHandler: function () {
+                        //modificarProyecto();
+                    }
+                });
+            }
+            $(document).ready(function () {
+                validar();
+                listarProyecto();
+                listarProvincia();
+                listarDepartamentos();
+                $("#ffinal").change(function () {
+                    var mes = diferenciaMeses();
+                    //calcularEdad($("#fecha").val());
+                    $("#tiempo").val(mes);
+                });
+                $("#monto").focusout(function () {
+                    carcularmonto(true,$("#monto").val());
+                });
+                esExtranjero();
+            });
+        </script>
+    </head>
+    <body>
+        
+        <div class="nav justify-content-end">
+            <nav class="nav">
+                <a class="nav-link" href="index.html">Registrar Proyectos</a>
+                <a class="nav-link active" href="#">Listar y Modificar</a>
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">BIENVENIDO</a>
+            </nav>
+        </div>
+        <div class="container" style="">
+            <div id="mensaje"></div>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" >Nro</th>
+                        <th scope="col" >Nombre</th>
+                        <th scope="col">Fecha de inicio</th>
+                        <th scope="col">Fecha de finalizacion</th>
+                        <th scope="col">Provincia</th>
+                        <th scope="col">Canton</th>
+                        <th scope="col">Monto</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="cuerpo" id="cuerpo">
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal -->
+
+        <div class="modal fade" id="modificarProy" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modificar Proyectos</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div id="mensaje"> </div>
+                        <form id="formulario">
+                            <div class="container"   style="height: 50%;width:100%;padding: 5%;" >
+                                <div id="mensaje"></div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Nombre</label>
+                                    <input type="text" class="form-control" id="nombre"  name="nombre"  placeholder="NOmbre">
+                                </div>
+                                <div class="form-group" >
+                                    <label for="exampleInputEmail1">Tipo de proyecto</label>
+                                    <select class="custom-select" id="tipo" name="tipo" >
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Fecha de Inicio</label>
+                                    <input type="date" class="form-control" id="finicio"  name="finicio"  >
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Fecha de finalizacion</label>
+                                    <input type="date" class="form-control" id="ffinal"  name="ffinal"  >
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Tiempo en meses</label>
+                                    <input type="text" class="form-control" id="tiempo"  name="tiempo"  readonly>
+                                </div>
+                                <div class="form-group" >
+                                    <label for="exampleInputEmail1">Extranjero</label>
+                                    <select class="custom-select" id="opciones" onchange="esExtranjero()">
+                                        <optgroup label="EXtanjero" >
+                                            <option value="no">No</option>
+                                            <option id ="si" value="si" >Si</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+
+                                <div class="form-group" id="provinciadiv">
+                                    <label for="exampleInputEmail1">Provincia</label>
+                                    <select class="custom-select" id="provincia" name="provincia" onchange="listarCanton($('#provincia').val())">
+                                    </select>
+                                </div>
+                                <div class="form-group" id="cantondiv">
+                                    <label for="exampleInputEmail1">Canton</label>
+                                    <select class="custom-select" id="canton" name="canton" >
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Pais</label>
+                                    <input type="text" class="form-control" id="pais"  name="pais"  placeholder="pais">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Descripcion</label>
+                                    <input type="text" class="form-control" id="descripcion" name="descripcion" >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Monto</label>
+                                    <input type="number" step="any" class="form-control" id="monto" name="monto" >
+                                </div>
+
+                                <div class="form-group" id="monto2">
+                                    <label for="exampleInputPassword1">Monto Extranjero</label>
+                                    <input type="number" step="any" class="form-control" id="montoextranjero" name="monto" readonly>
+                                </div>
+                                <button type="submit" class="btn btn-primary" onclick="modificarProyecto()">Modificar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,19 @@
+body{
+    font-family: Arial;
+    
+}
+
+.container{
+     margin: 75px auto;
+    width: 1000px;
+}
+
+table{
+    text-align: left;
+    width: 100%;
+}
+tr:hover{
+    background-color: darkcyan;
+    color:white; 
+}
+

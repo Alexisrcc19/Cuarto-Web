@@ -1,0 +1,145 @@
+<script src="/js/utilidades.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#valor").focusout(function cambia() {
+                    menorEdad();
+                });
+        verificar();
+        cambiarFecha();
+        $("#destino").change(function diferente() {
+            if (!destino() ) {
+                console.log("OK");
+            }else{
+                alert("DIGITA OTRA CIUDAD DE DESTINO");
+                $("#destino").val("CAMBIA DE DESTINO!!");
+            }
+        });
+
+
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#boton").click(function () {
+            buscar();
+        });
+        function buscar() {
+            var url = "http://localhost:3000/buscar_consulta";
+            var criterio = "pasaporte";
+            var texto = $("#texto").val();
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                data: 'criterio=' + criterio + '&texto=' + texto,
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data);
+                    $("#cedula").val(data[0].cedula);
+                    $("#cliente").val(data[0].cliente);
+                    $("#edad").val(data[0].edad);
+                    $("#id").val(data[0].id);   
+                }
+            });
+        }
+           
+        cambiarFecha();            
+        function cambiarFecha() {
+            //alert(fecha);
+            var d = new Date();
+            //alert((d.getDate()+"/"+(d.getMonth()+1))+"/"+d.getFullYear());
+            var mes= (d.getMonth()+1);
+            var dia= d.getDate();
+            var fecha = (d.getFullYear()+"-"+rellenarCeros(mes,2)+"-"+rellenarCeros(dia,2));
+            console.log(fecha);
+            $("#fecha").val(fecha);
+        }
+        function rellenarCeros(texto, nro_cero){
+            texto= texto+"";
+            if(texto.length < nro_cero){
+                var aux= "";
+                for(var i= texto.length ; i<nro_cero ; i++ ){
+                    aux+="0";
+                }
+                return aux+texto;
+            }else{
+                return texto;
+            }
+        }
+    });
+</script>
+<center>
+    <div class="col-lg-7 text-center aos-init aos-animate" data-aos="fade-up" data-aos-delay="">
+        <div>
+            <label>Ingrese el pasaporte</label>
+            <input  id="texto" type="text" placeholder="Ingrese el dato a buscar" />
+        <button id="boton" type="button" class="btn btn-dark" > Buscar </button>
+    </div>
+        <form action="/pasaje/registro" method="post" class="form-box" id="formulario">
+            <h3 class="h4 text-black mb-4"><%= title %></h3>
+            <input type="hidden" name="id" id="id">
+            <small id="cedulaHelp" class="form-row text-muted">DATOS DEL CLIENTE</small>
+            <div class="form-group">
+                 <small id="cedulaHelp" class="form-text text-muted">Cedula.</small>
+                 <input type="text" class="form-control" id="cedula" name="cedula" readonly>
+            </div>
+            <div class="form-group">
+                 <small id="cedulaHelp" class="form-text text-muted">Cliente.</small>
+                <input type="text" class="form-control" id="cliente" name="cliente" readonly>
+            </div>
+            <div class="form-group">
+                 <small id="cedulaHelp" class="form-text text-muted">Edad.</small>
+                <input type="text" class="form-control" id="edad" name="edad" readonly>
+            </div>
+            
+            <small id="cedulaHelp" class="form-row text-muted">DATOS DEL PASAJE</small>
+            <label>Origen</label> 
+            <select  name="origen" id="origen" class="form-control">
+                <option value="Loja">Loja</option>
+                <option value="Cuenca">Cuenca</option>
+                <option value="Quito">Quito</option>
+                <option value="GUayaquil">Guayaquil</option>
+                <option value="NY">New YORK</option>
+                <option value="Tokio">TOkio</option>
+            </select>
+            <label>Destino</label> 
+            <select  name="destino" id="destino" class="form-control">
+                <option value="Loja">Loja</option>
+                <option value="Cuenca">Cuenca</option>
+                <option value="Quito">Quito</option>
+                <option value="GUayaquil">Guayaquil</option>
+                <option value="NY">New YORK</option>
+                <option value="Tokio">TOkio</option>
+            </select>
+            <div class="form-group mb-4">
+                <small id="cedulaHelp" class="form-text text-muted">Fecha de vuelo.</small>
+                <input type="date" class="form-control" id="fecha" name="fecha" readonly>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="nro" name="nro" placeholder="Nro. Asiento">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="valor" name="valor" placeholder="Valor del pasaje">
+            </div>
+            <label>VALOR A COBRAR</label>
+            <div class="form-group">
+                <input type="text" class="form-control" id="valorDesc" name="valorDesc" readonly>
+            </div>
+            <label>Seleccione tipo de vuelo</label> 
+            <select  name="tipo" id="tipo" class="form-control">
+                <option value="Nacional">
+                    Nacional
+                </option>
+                <option value="Extranjero">
+                    Extranjero
+                </option>
+            </select>
+
+            <br>
+            
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-pill" value="Registrar">
+                <a href="/" class="btn btn-danger btn-pill">Volver</a>
+
+            </div>
+        </form>
+    </div>
+</center>

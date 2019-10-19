@@ -1,0 +1,73 @@
+<script src="/javascripts/utilidades.js"></script>
+<script>
+    $(function () {
+        validar();
+        $("#fecha_nac").change(function () {
+            var edad = calcularEdad($("#fecha_nac").val());
+            $("#edad").val(edad);
+        });
+    });
+</script>
+<div class="container">    
+    <form id="formulario" method="POST" action="/registromedico">
+        <div>            
+            <small class="label label-danger">DATOS GENERALES</small>            
+        </div>
+        <div class="form-group">
+            <label for="cedula">Cedula</label>
+            <input type="text" class="form-control" id="cedula" name="cedula" aria-describedby="cedulaHelp" placeholder="Ingrese la cedula">
+            <small id="cedulaHelp" class="form-text text-muted">Ingrese su cedula.</small>
+        </div>
+        <div class="form-group">
+            <label for="apellidos">Apellidos</label>
+            <input type="text" class="form-control" id="apellidos" name="apellidos" aria-describedby="apellidosHelp" placeholder="Ingrese sus apellidos">
+            <small id="apellidosHelp" class="form-text text-muted">Ingrese sus apellidos.</small>
+        </div>
+        <div class="form-group">
+            <label for="nombres">Nombres</label>
+            <input type="text" class="form-control" id="nombres" name="nombres" aria-describedby="nombresHelp" placeholder="Ingrese sus nombres">
+            <small id="cedulaHelp" class="form-text text-muted">Ingrese su cedula.</small>
+        </div>
+        <div class="form-group">
+            <label for="fecha_nac">Fecha de nacimiento</label>
+            <input type="date" class="form-control" id="fecha_nac" name="fecha_nac" aria-describedby="fecha_nacHelp" placeholder="Ingrese la cedula">
+            <small id="fecha_nacHelp" class="form-text text-muted">Ingrese su fecha de nacimiento.</small>
+        </div>
+        <div class="form-group">
+            <label for="edad">Edad</label>
+            <input type="text" class="form-control" id="edad" name="edad" aria-describedby="edadHelp" placeholder="Ingrese su edad" >
+            <small id="edadHelp" class="form-text text-muted">Ingrese su edad.</small>
+        </div>
+        <div class="form-group">
+            <label for="nro">Nro de registro</label>
+            <input type="text" class="form-control" id="nro" name="nro" aria-describedby="nombresHelp" placeholder="Ingrese su nro de registro">
+            <small id="nroHelp" class="form-text text-muted">Ingrese su nro de registro.</small>
+        </div>
+        <div class="form-group">
+            <select name="especialidad" id="especialidad" class="form-control" aria-describedby="espeHelp">
+                <option value="Odontologia">Odontologia</option>
+                <option value="General">General</option>
+                <option value="Ginecologia">Ginecologia</option>
+                <option value="Pediaria">Pediatria</option>
+                <option value="Uncologia">Uncologia</option>
+                <option value="Anestiologia">Anestiologia</option>
+            </select>            
+            <small id="espeHelp" class="form-text text-muted">seleccione la especialidad.</small>
+        </div>
+        <div>            
+            <small class="label label-danger">DATOS DE LA CUENTA</small>            
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Correo electronico</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" name="correo" aria-describedby="emailHelp" placeholder="Ingrese el correo electronico personal">
+            <small id="emailHelp" class="form-text text-muted">Ingrese el correo electronico personal.</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Clave</label>
+            <input type="password" class="form-control" name="clave" id="exampleInputPassword1" placeholder="Clave">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Registrate</button>
+        <a href="/" class="btn btn-danger">Volver</a>
+    </form>
+</div>

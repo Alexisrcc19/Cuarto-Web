@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--
+Escribe un programa que contenga un formulario con cinco botones. Cada uno de los
+botones debe tener como etiqueta el nombre de un color y al pulsarlo pondrá el color
+del fondo del documento del mismo color que indica.
+-->
+<html>
+    <head>
+        <title>Ejercicio 1</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript">
+            function cambiaFondo(color) {
+                document.bgColor = color;
+            }
+        </script>
+    </head>
+    <body>
+        <div> 
+            <form> 
+                <h2>Seleccione un color </h2>
+                <input type="button" id="rojo" value="Rojo"
+                       onClick="cambiaFondo('red')">
+                <input type="button" id="azul" value="Azul"
+                       onClick="cambiaFondo('blue')">
+                <input type="button" id="amarillo" value="Amarillo"
+                       onClick="cambiaFondo('yellow')">
+                <input type="button" id="verde" value="Verde"
+                       onClick="cambiaFondo('green')">
+                <input type="button" id="negro" value="Negro"
+                       onClick="cambiaFondo('black')">
+            </form>
+        </div>
+    </body>
+</html>

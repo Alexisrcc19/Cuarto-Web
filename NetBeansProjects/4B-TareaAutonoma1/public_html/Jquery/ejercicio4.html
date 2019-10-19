@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--
+
+-->
+<HTML>
+    <HEAD>
+        <title>Ejercicio 4</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        
+        <script>
+
+            $(document).ready(function () {
+                    $("#f1").click(function () {
+                        $('#form').css('background-image', 'url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQH4Dg7nQNg2HqtdmcH90u3zC6Z0429tx5p3zEodtWnNOb1fRjXmQ)');
+                    });
+                    $("#f2").click(function () {
+                        $('#form').css('background-image', 'url(https://evcnoticias.files.wordpress.com/2017/03/gato-asustado.png?w=320&h=350&crop=1');
+                    });
+                     $("#f3").click(function () {
+                        $('#form').css('background-image', 'url(http://www.estudiantes.info/ciencias_naturales/images/leonpadre2.jpg');
+                    });
+                    $("#f4").click(function () {
+                        $('#form').css('background-image', 'url(https://misanimales.com/wp-content/uploads/2018/04/koala-caracteristicas.jpg');
+                    });
+                });
+        </script>
+    </HEAD>
+
+    <BODY>
+        <div class="container">
+            <form name="imageForm" >
+                <select id="selec" name="imageSelector" >
+                    <option value="noImage">Seleccione un animal
+                    <option id="f1" >Perro
+                    <option id="f2" >Gato
+                    <option id="f3" >Leon
+                    <option id="f4" >Koala
+                </select>
+            </form>
+             <form id="form" style="width: 500px;height: 450px;background: black">
+            
+            </FORM>
+        </DIV>
+    </BODY>
+</HTML>

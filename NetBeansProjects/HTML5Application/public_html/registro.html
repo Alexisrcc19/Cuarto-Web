@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"  crossorigin="anonymous">
+        <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"  crossorigin="anonymous"></script>-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"  crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"  crossorigin="anonymous"></script>
+        <script language="javascript" type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script> 
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/localization/messages_es.js"></script>
+        <script src="logica.js"></script>
+        <style>
+            .error{
+                float: none; color: red; padding-left: .5em; vertical-align: middle; font-size: 12px; 
+            }
+        </style>
+        <script >
+            function validar() {
+                $.validator.addMethod('soloLetras', function (value, element) {
+                    return this.optional(element) || /^[a-ñ-z\s]+$/i.test(value);
+                }, 'Solo letras');
+
+                $.validator.addMethod('registro', function (value, element) {
+                    return this.optional(element) || /^[N]-[0-9]{4}-[R]-[0-9]{3}$/.test(value);
+                }, 'Ingrese un registro valido');
+
+                $.validator.addMethod('validarCedula', function (value, element) {
+                    return this.optional(element) || validarCedula(value);
+                }, 'Ingrese un número de cedula valido');
+
+                $("#formulario").validate({
+                    rules: {
+                        cedula: {
+                            required: true,
+                            minlength: 10,
+                            maxlength: 10,
+                            number: true,
+                            validarCedula: true
+                        },
+                        nombres: {
+                            required: true,
+                            minlength: 4,
+                            maxlength: 30,
+                            soloLetras: true
+                        },
+                        apellidos: {
+                            required: true,
+                            minlength: 4,
+                            maxlength: 30,
+                            soloLetras: true
+                        },
+                        registro: {
+                            required: true,
+                            registro: true
+                        },
+                        correo: {
+                            required: true,
+                            email: true
+                        },
+                        clave: {
+                            required: true
+                        }
+                    },
+                    submitHandler: function () {
+                        registroMedicos();
+                    }
+                });
+            }
+
+
+            $(document).ready(function () {
+                cargarEspecialidades();
+                validar();
+            });
+
+        </script>
+    </head>
+    <body>
+        <form id="formulario">
+            <div class="container"   style="height: 50%;width:30%;padding: 5%;" >
+                <div id="mensaje"></div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Cedula</label>
+                    <input type="text" class="form-control" id="cedula"  name="cedula"  placeholder="Cedula">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Apellidos</label>
+                    <input type="text" class="form-control" id="apellidos"  name="apellidos"  placeholder="Apellidos">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nombres</label>
+                    <input type="text" class="form-control" id="nombres"  name="nombres"  placeholder="Nombres">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Especialidad</label>
+                    <select class="custom-select" id="Especialidad" name="Especialidad" title="Especialidad">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Correo electronico</label>
+                    <input type="email" class="form-control" id="correo"  name="correo" aria-describedby="emailHelp" placeholder="Correo electronico">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Numero de Registro</label>
+                    <input type="text" class="form-control" id="registro"  name="registro"  placeholder="Numero de Registro">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Clave</label>
+                    <input type="password" class="form-control" id="clave" name="clave" placeholder="Clave">
+                </div>
+
+                <button type="submit" class="btn btn-primary" >Registrar</button>
+                <small class="form-text text-muted">¿Ya tienes una cuenta?  </small>
+                <a href="registro.html" >Iniciar Sesion </a>
+            </div>
+        </form>
+</html>

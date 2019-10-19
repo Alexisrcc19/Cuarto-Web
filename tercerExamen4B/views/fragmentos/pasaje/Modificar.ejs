@@ -1,0 +1,111 @@
+<script src="/js/utilidades.js"></script>
+<script>
+    $(document).ready(function () {
+         $("#destino").val("<%= pasaje.destino %>");
+         $("#origen").val("<%= pasaje.salida %>");
+        verificar();
+        
+        Fecha();
+        function Fecha() {
+            var fecha = "<%= pasaje.fecha %>";
+            //alert(fecha);
+            var d = new Date(fecha);
+            //alert((d.getDate()+"/"+(d.getMonth()+1))+"/"+d.getFullYear());
+            var mes = (d.getMonth() + 1);
+            var dia = d.getDate();
+            var fecha = (d.getFullYear() + "-" + rellenarCeros(mes, 2) + "-" + rellenarCeros(dia, 2));
+        console.log("fecha:")    
+        console.log(fecha);
+            $("#fecha").val(fecha);
+        }
+        function rellenarCeros(texto, nro_cero) {
+            texto = texto + "";
+            if (texto.length < nro_cero) {
+                var aux = "";
+                for (var i = texto.length; i < nro_cero; i++) {
+                    aux += "0";
+                }
+                return aux + texto;
+            } else {
+                return texto;
+            }
+        }
+        $("#destino").change(function diferente() {
+            if (!destino() ) {
+                console.log("OK");
+            }else{
+                alert("DIGITA OTRA CIUDAD DE DESTINO");
+                $("#destino").val("CAMBIA DE DESTINO!!");
+            }
+        });
+        
+         $("#valor").focusout(function cambia() {
+                    menorEdad();
+                });
+        
+
+    });
+</script>
+<center>
+    <div class="col-lg-7 text-center aos-init aos-animate" data-aos="fade-up" data-aos-delay="">
+        <form action="/pasaje/modificar" method="POST" class="form-box" id="formulario">
+            <% if(typeof msg != 'undefined') {%>
+            <% if(typeof msg.error != 'undefined' && msg.error.length > 0) { %>    
+            <div class="form-group">
+                <div class="alert alert-danger" style="font-size: 12px">
+                    <%= msg.error %>
+                </div>                        
+            </div>                  
+            <% } %>
+            <% if(typeof msg.info != 'undefined' && msg.info.length > 0) { %>    
+            <div class="form-group">
+                <div class="alert alert-success" style="font-size: 12px">
+                    <%= msg.info %>
+                </div>                        
+            </div>                  
+            <% } %>
+            <% } %>
+            <h3 class="h4 text-black mb-4"><%= title %></h3>
+            <small id="cedulaHelp" class="form-row text-muted">DATOS DEL PASAJE</small>
+            <input type="hidden" value="<%= external %>" name="external">
+            <label>Origen</label> 
+            <select  name="origen" id="origen" class="form-control">
+                <option value="Loja">Loja</option>
+                <option value="Cuenca">Cuenca</option>
+                <option value="Quito">Quito</option>
+                <option value="GUayaquil">Guayaquil</option>
+                <option value="NY">New YORK</option>
+                <option value="Tokio">TOkio</option>
+            </select>
+            <label>Destino</label> 
+            <select  name="destino" id="destino" class="form-control">
+                <option value="Loja">Loja</option>
+                <option value="Cuenca">Cuenca</option>
+                <option value="Quito">Quito</option>
+                <option value="GUayaquil">Guayaquil</option>
+                <option value="NY">New YORK</option>
+                <option value="Tokio">TOkio</option>
+            </select>
+            <small id="cedulaHelp" class="form-row text-muted">FECHA</small>
+            <div class="form-group mb-4">
+                <small id="cedulaHelp" class="form-text text-muted">Fecha de vuelo.</small>
+                <input type="date" class="form-control" id="fecha" name="fecha" readonly value="<%= pasaje.fecha %>">
+            </div>
+            <small id="cedulaHelp" class="form-row text-muted">NRO ASIENTO</small>
+            <div class="form-group">
+                <input type="text" class="form-control" id="nro" name="nro" placeholder="Numero de Asiento" value="<%= pasaje.nro_asiento %>">
+            </div>
+            <small id="cedulaHelp" class="form-row text-muted">VALOR</small>
+            <div class="form-group">
+                <input type="text" class="form-control" id="valor" name="valor" placeholder="Valor del pasaje" value="<%= pasaje.valor %>">
+            </div>
+            <label>VALOR A COBRAR</label>
+            <div class="form-group">
+                <input type="text" class="form-control" id="valorDesc" name="valorDesc" readonly>
+            </div>
+             <input type="submit" class="btn btn-primary btn-pill" value="Modificar">
+            <a href="/" class="btn btn-danger btn-pill">Volver</a>
+           
+        </form>
+    </div>
+</center>

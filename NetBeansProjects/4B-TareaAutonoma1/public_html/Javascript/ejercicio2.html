@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--
+Como ampliación del ejercicio anterior, añade a los cinco botones, la posibilidad de
+elegir el cambio de color para el fondo del documento o para el fondo de una capa
+situada en la esquina superior derecha del documento. (sugerencia.- Usar un formulario
+del tipo type=’radio’ para elegir entre cambiar el documento o la capa).
+-->
+<html>
+    <head>
+        <title>Ejercicio 2</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript">
+           var colore="white";
+            function obtenercolor(color) {
+                console.log(color);
+                colore=color;   
+            }
+
+            function cambia_fondo_capa() {
+                var a = document.getElementById('capa');
+                console.log(colore);
+                a.style.backgroundColor = colore;
+
+            }
+
+            function cambiaFondo() {
+                document.bgColor = colore;
+            }
+
+        </script>
+        <style>
+            #capa{
+               float: right; 
+            }
+        </style>
+    </head>
+    <body>
+      <div class="container">
+        <div id="capa" style="width:99px;height: 99px"> </div>
+
+        <div > 
+            <form> 
+                <h2>Seleccione un color </h2>
+                <input type="button" id="rojo" value="Rojo"
+                       onClick="obtenercolor('red')">
+                <input type="button" id="violeta" value="Violeta"
+                       onClick="obtenercolor('#EE82EE')">
+                <input type="button" id="amarillo" value="Amarillo"
+                       onClick="obtenercolor('yellow')">
+                <input type="button" id="verde" value="Verde Claro"
+                       onClick="obtenercolor('#90EE90')">
+                <input type="button" id="tomate" value="Tomate"
+                       onClick="obtenercolor('#FF6347')">
+                <br>
+                <br>
+                
+            <h2> Cambiar el color a </h2>
+           <!--     
+            <select name="opciones" >
+                <option value="document" onchange="cambiaFondo()">Documento</option>
+                <option  id="capa" value="capa" onchange="cambia_fondo_capa()">Esquina superior derecha</option>
+                
+            </select> -->
+           <div>
+                <input type="radio" id="document" value="Documento" 
+                       onclick="cambiaFondo()">Documento 
+                <br>
+                <br>    
+                <input type="radio" id="capaq" value="Esquina superior derecha"
+                       onclick="cambia_fondo_capa()">Esquina superior derecha
+           </div>
+           
+            </form>
+             </div>
+         </div>
+    </body>
+</html>

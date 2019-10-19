@@ -1,0 +1,92 @@
+<script src="/js/utilidades.js"></script>
+<script>
+    $(document).ready(function () {
+        verificar();
+        Fecha();
+        function Fecha() {
+            var fecha = "<%= pasaje.fecha %>";
+            //alert(fecha);
+            var d = new Date(fecha);
+            //alert((d.getDate()+"/"+(d.getMonth()+1))+"/"+d.getFullYear());
+            var mes = (d.getMonth() + 1);
+            var dia = d.getDate();
+            var fecha = (d.getFullYear() + "-" + rellenarCeros(mes, 2) + "-" + rellenarCeros(dia, 2));
+            console.log(fecha);
+            $("#fecha").val(fecha);
+        }
+        function rellenarCeros(texto, nro_cero) {
+            texto = texto + "";
+            if (texto.length < nro_cero) {
+                var aux = "";
+                for (var i = texto.length; i < nro_cero; i++) {
+                    aux += "0";
+                }
+                return aux + texto;
+            } else {
+                return texto;
+            }
+        }
+        $("#destino").focusout(function diferente() {
+            if (!destino()) {
+                console.log("continua");
+            } else {
+                req.flash("error","DIGITA OTRA CIUDAD DE DESTINO");
+                $("#destino").val("CAMBIA DE DESTINO!!");
+            }
+        });
+        
+
+    });
+</script>
+<center>
+    <div class="col-lg-7 text-center aos-init aos-animate" data-aos="fade-up" data-aos-delay="">
+        <form action="/pasaje/modificar" method="post" class="form-box" id="formulario">
+            <% if(typeof msg != 'undefined') {%>
+            <% if(typeof msg.error != 'undefined' && msg.error.length > 0) { %>    
+            <div class="form-group">
+                <div class="alert alert-danger" style="font-size: 12px">
+                    <%= msg.error %>
+                </div>                        
+            </div>                  
+            <% } %>
+            <% if(typeof msg.info != 'undefined' && msg.info.length > 0) { %>    
+            <div class="form-group">
+                <div class="alert alert-success" style="font-size: 12px">
+                    <%= msg.info %>
+                </div>                        
+            </div>                  
+            <% } %>
+            <% } %>
+            <h3 class="h4 text-black mb-4"><%= title %></h3>
+            <small id="cedulaHelp" class="form-row text-muted">DATOS DEL PASAJE</small>
+            <input type="hidden" value="<%= pasaje.external_id %>" name="external">
+            <div class="form-group">
+                <input type="text" class="form-control" id="origen" name="origen" placeholder="Lugar de origen" value="<%= pasaje.origen %>">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="destino" name="destino" placeholder="Lugar de destino" value="<%= pasaje.destino %>">
+            </div>
+            <div class="form-group mb-4">
+                <small id="cedulaHelp" class="form-text text-muted">Fecha de vuelo.</small>
+                <input type="date" class="form-control" id="fecha" name="fecha" readonly value="<%= pasaje.fecha %>">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="duracion" name="duracion" placeholder="Duracion del vuelo (en horas)" value="<%= pasaje.duracion %>">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="valor" name="valor" placeholder="Valor del pasaje" value="<%= pasaje.valor %>">
+            </div>
+            <small id="cedulaHelp" class="form-row text-muted">DATOS DEL CLIENTE</small>
+            <div class="form-group">
+                <select class="form-control" id="cliente" name="cliente">
+                    <option value="<%= pasaje.persona.id %>"> <%= pasaje.persona.apellidos %> <%= pasaje.persona.nombres %> </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-pill" value="Modificar">
+                <a href="/" class="btn btn-danger btn-pill">Volver</a>
+
+            </div>
+        </form>
+    </div>
+</center>

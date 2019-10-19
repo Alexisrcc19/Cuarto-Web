@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<HTML>
+    <HEAD>
+        <script>
+            //build a function named displayImage
+            //it should be catching the value of the item selected in a variable named whichImage
+            //use an if / else structure to test for whichImage not being equal to the string "noImage"
+            //if the statement is true then display the selected image in the canvas image
+            //if the statement is false then display the "blank.jpg" external file in the canvas image
+
+            //In the select tag below add an onChange event handler that calls the displayImage function
+            //the value property of the selection list should be passed to the displayImage function as it is called
+            //hint (this.value)
+
+            function displayImage(whichImage)
+            {
+                if (whichImage != "noImage")
+                {
+                    document.canvas.src = whichImage;
+                } else
+                {
+                    document.canvas.src = "blank.jpg";
+                }
+            }
+
+
+        </script>
+    </HEAD>
+
+    <BODY>
+        <form name="imageForm">
+            <table border=3>
+                <tr>
+                    <td>
+                        <select name="imageSelector" onchange = "displayImage(this.value)">
+                            <option value="noImage">Seleccione un animal
+                            <option value="http://breedfinder.ikc.ie/Content/images/breeds/55_spaniel_cocker.jpg">Perro
+                            <option value="https://evcnoticias.files.wordpress.com/2017/03/gato-asustado.png?w=320&h=350&crop=1">Gato
+                            <option value="https://www.laprensa.hn/csp/mediapool/sites/dt.common.streams.StreamServer.cls?STREAMOID=1a3Ww1FTAVuXQIoNy4UTzM$daE2N3K4ZzOUsqbU5sYuCQRwVisjRWH7cB4x1qGh4WCsjLu883Ygn4B49Lvm9bPe2QeMKQdVeZmXF$9l$4uCZ8QDXhaHEp3rvzXRJFdy0KqPHLoMevcTLo3h8xh70Y6N_U_CryOsw6FTOdKL_jpQ-&CONTENTTYPE=image/jpeg">Leon
+                            <option value="https://www.tuiris.com/wp-content/uploads/2017/10/%C2%A1En-20-an%CC%83os-al-Koala-le-podri%CC%81a-pasar-esto-1900x1188.jpg">Koala
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="blank.jpg" name="canvas">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </BODY>
+</HTML>

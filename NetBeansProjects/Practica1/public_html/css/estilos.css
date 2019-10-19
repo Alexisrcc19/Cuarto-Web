@@ -1,0 +1,102 @@
+body{
+    font-family: Arial,Helvetica, sans-serif;
+    margin: 0;
+    background: url(http://www.hdfondos.eu/pictures/2015/0714/1/pattern-patterns-microsoft-windows-1680x1050-wallpaper-629481.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+}
+*{
+    box-sizing: border-box;
+}
+
+.contenedor{
+    width: 100%;
+    padding: 15px;
+}
+
+.contenedor-paciente{
+    width: 100%;
+    padding: 15px;
+}
+.formulario{
+    background: #fff;
+    margin-top: 100px;
+    padding: 3px;
+}
+
+h1{
+    text-align: center;
+    color: #1a2537;
+    font-size: 40px;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"]{
+    font-size: 20px;
+    width: 82%;
+    padding: 10px;
+    border: none;
+}
+
+.combo{
+    font-size: 20px;
+    width: 82%;
+    padding: 10px;
+    border: none;
+    background: #fff;
+}
+
+.error{
+    float: none; color: red; padding-left: .5em; vertical-align: middle; font-size: 12px; 
+}
+
+.input-contenedor{
+    margin-bottom: 15px;
+    border: 1px solid #aaa;
+}
+
+.icon{
+    min-width: 50px;
+    text-align: center;
+    color: #999;
+}
+
+.button{
+    border: none;
+    width: 100%;
+    color: white;
+    font-size: 20px;
+    background: #1a2537;
+    padding: 15px 20px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.button:hover{
+    background: cadetblue;
+}
+
+
+p{
+    text-align: center;
+}
+
+.link{
+    text-decoration: none;
+    color: #1a2537;
+    font-weight: 600;
+}
+.link:hover{
+    color: cadetblue;
+}
+
+label.error { float: none; color: red; padding-left: .5em; vertical-align: middle; font-size: 12px; }
+
+@media(min-width:768px){
+    .formulario{
+        margin: auto;
+        width: 500px;
+        margin-top: 150px;
+        border-radius: 3%;
+    }
+}

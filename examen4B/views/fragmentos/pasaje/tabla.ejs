@@ -1,0 +1,98 @@
+<script>
+    $(document).ready(function () {
+        $("#boton").click(function () {
+            buscar();
+        });
+        function buscar() {
+            var url = "http://localhost:3000/pasajes/buscar_consulta";
+            var criterio = $("#criterio").val();
+            var texto = $("#texto").val();
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                data: 'criterio=' + criterio + '&texto=' + texto,
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data);
+                    var html = '';
+                    $.each(data, function (index, item) {
+                        html += '<tr>';
+                        html += '<td>' + (index*1 + 1) + '</td>';
+                        html += '<td>' + item.cliente + '</td>';
+                        html += '<td>' + item.origen + '</td>';
+                        html += '<td>' + item.destino + '</td>';
+                        html += '<td>' + item.valor + '</td>';
+                        html += '<td> <a href="/pasaje/modificar" class="btn btn-primary"> Modificar</a></td>';
+                        html += '</tr>';
+                    });
+                    $("#cuerpo").html(html);
+                }
+            });
+        }
+    });
+</script>
+
+<div class="container" style="margin-top: 20px;">   
+
+    <form style="padding: 5%">
+        <div >
+            <select id="criterio" class="btn btn-secondary"> 
+                <option value="todos"> Todos </option>
+                <option value="pasajero"> Pasajero </option>
+                <option value="origen"> Ciudad de Origen </option>  
+                 <option value="destino"> CIudad de DEstino </option> 
+            </select>
+            <input  id="texto" type="text" placeholder="Ingrese el dato a buscar" />
+            <button id="boton" type="button" class="btn btn-dark" > Buscar </button>
+        </div>
+        <% if(typeof msg != 'undefined') { %>
+        <% if(typeof msg.error != 'undefined' && msg.error.length > 0) { %>
+        <div class="form-group">
+            <div class="label label-danger" style="font-size: 12px">
+                <%= msg.error %>
+            </div>                        
+        </div>                  
+        <% } %>
+        <% if(typeof msg.info != 'undefined' && msg.info.length > 0) { %>
+        <div class="form-group">
+            <div class="label label-success" style="font-size: 12px">
+                <%= msg.info %>
+            </div>                        
+        </div>                  
+        <% } %>
+        <% } %>
+        <table class="table" style="padding-top: 3% ">
+            <thead>
+                <tr>
+                    <th>Nro</th><th>Cliente</th><th></th><th>Origen</th><th>Destino</th><th>Valor</th><th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="cuerpo">
+                <% pasaje.forEach(function (item, index) { %>
+                <tr>
+                    <td>
+                        <%= (index + 1) %>
+                    </td>
+                    <td>
+                        <%= item.persona.apellidos %> <%= item.persona.nombres %>
+                    </td>
+                    <td>
+                        <%= item.origen %>
+                    </td>
+                    <td>
+                        <%= item.destino %>
+                    </td>
+                    <td>
+                        <%= item.valor %>
+                    </td>
+                    <td>
+                        <a href="/pasaje/modificar/<%= item.external_id %>" class="btn btn-primary"> Modificar</a>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+</div>
+</div>
+</div>
+</form>
+

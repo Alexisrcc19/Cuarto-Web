@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Agregar Paciente</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+        <link rel="stylesheet" href="css/estilos.css ">
+        <script language="javascript" type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script> 
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/localization/messages_es.js"></script>
+        <script src="Script/Funciones.js"></script>
+        <script>
+            
+            $(document).ready(function () {
+                validarPaciente();
+                $("#fecha").change(function () {
+                    var edad = calcularEdad($("#fecha").val());
+                    $("#edad").val(edad);
+                });
+
+            });
+
+            function guardar() {
+                var accion = "/guardar_paciente";
+                var data = {
+                    "apellidos": $("#apellidos").val(),
+                    "nombres": $("#nombres").val(),
+                    "fecha_nac": $("#fecha").val(),
+                    "direccion": $("#direccion").val(),
+                    "genero": $("#sexo").val(),
+                    "edad": $("#edad").val(),
+                    "celular": $("#celular").val(),
+                    "habitos": $("#habitos").val(),
+                    "enfermedades": $("#enfermedades").val(),
+                    "enfermedades_hederitarias": $("#enfer_hered").val(),
+                    "cedula": $("#cedula").val(),
+                    "telefono": $("#telefono").val()
+                };
+                var dataEnv = JSON.stringify(data);
+                console.log(dataEnv);
+                console.log(URL_RESTPUL+accion);
+                $.ajax({
+                    url: URL_RESTPUL + accion,
+                    data: dataEnv,
+                    type: 'POST',
+                    headers: {"api-token": localStorage["token"]},
+                    dataType: 'json',
+                    success: function (data, textStatus, jqXHR) {
+                        console.log(data);
+                        if (data.codigo == "200" && data.codigo=="200") {
+                            alert("Se ha agregado al paciente correctamente");
+                            location.href = "paciente.html";
+                        } else {
+                            manejoErroresJson(data.message, data.codigo);
+
+                        }
+                    }, error: function (jqXHR, textStatus, errorThrown) {
+                        alert("Error");
+                    }
+                });
+                console.log(dataEnv);
+                // location.href="Inicio.html";
+            }
+        </script>
+    </head>
+    <body>
+        <form class="formulario" id="formulario">
+            <div id="error" > </div>
+            <h1> Nuevo Paciente </h1>
+            <div class="contenedor-paciente">
+
+                <div class="input-contenedor">
+                    <i class="fas fa-id-card icon"></i>
+                    <input type="text" placeholder="Cedula" name="cedula" id="cedula" >
+                </div>
+
+                <div class="input-contenedor ">
+                    <i class="fas fa-user-alt icon"></i>
+                    <input type="text" placeholder="Apellidos" name="apellidos" id="apellidos" >
+                </div>
+
+                <div class="input-contenedor ">
+                    <i class="fas fa-user-alt icon"></i>
+                    <input type="text" placeholder="Nombres" name="nombres" id="nombres" >
+                </div>
+
+                <div class="input-contenedor ">
+                    <i class="far fa-question-circle icon"></i>
+                    <input type="date" placeholder="Fecha de nacimiento" name="fecha" id="fecha" >
+                </div>
+
+                <div class="input-contenedor ">
+                    <i class="fas fa-user-alt icon"></i>
+                    <input type="text" placeholder="Edad" name="edad" id="edad" readonly="readonly">
+                </div>
+
+                <div class="input-contenedor ">
+                    <i class="fas fa-users icon"></i>
+                    <SELECT name="sexo" SIZE=1 title="Sexo" class="custom-select combo" id="sexo" > 
+                        <option value="M">Masculino </option>
+                        <option value="F">Femenino </option>
+                        
+                    </SELECT> 
+                </div>
+
+
+
+                <div class="input-contenedor ">
+                    <i class="fas fa-envelope icon"></i>
+                    <input type="text" placeholder="Direccion" name="direccion" id="direccion" >
+                </div>
+
+                <div class="input-contenedor ">
+                    <i class="fas fa-lock icon"></i>
+                    <input type="text" placeholder="Telefono" name="telefono" id="telefono" >
+                </div>
+
+                <div class="input-contenedor ">
+                    <i class="fas fa-lock icon"></i>
+                    <input type="text" placeholder="Celular" name="celular" id="celular" >
+                </div>
+
+                <div class="input-contenedor ">
+                    <i class="fas fa-lock icon"></i>
+                    Habitos<br>
+                    <textarea name="habitos" id="habitos"  rows="10" cols="55"></textarea>
+                </div>
+
+                <div class="input-contenedor ">
+                    <i class="fas fa-lock icon"></i>
+                    Enfermedades<br>
+                    <textarea name="enfermedades" id="enfermedades" rows="10" cols="55"></textarea>
+                </div>
+
+                <div class="input-contenedor ">
+                    <i class="fas fa-lock icon"></i>
+                    Enfermedades hereditarias<br>
+                    <textarea name="enfer_hered"  id="enfer_hered" rows="10" cols="55"></textarea>
+                </div>
+
+
+                <input type="button" value="Registrar" class="button" id="registrar" onclick="guardar()">
+                <p></p>
+                <br>
+
+            </div>
+        </form>
+    </body>
+</html>

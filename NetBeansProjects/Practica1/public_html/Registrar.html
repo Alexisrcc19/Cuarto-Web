@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Registrate</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+        <link rel="stylesheet" href="css/estilos.css ">
+        <script language="javascript" type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script> 
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/localization/messages_es.js"></script>
+        <script src="Script/Funciones.js"></script>
+        <script>
+            function validar() {
+                $.validator.addMethod('soloLetras', function (value, element) {
+                    return this.optional(element) || /^[a-ñ-z\s]+$/i.test(value);
+                }, 'Solo letras');
+
+                $.validator.addMethod('registro', function (value, element) {
+                    return this.optional(element) || /^[N]-[0-9]{4}-[R]-[0-9]{3}$/.test(value);
+                }, 'Ingrese un registro valido');
+
+                $.validator.addMethod('validarCedula', function (value, element) {
+                    return this.optional(element) || validarCedula(value);
+                }, 'Ingrese un número de cedula valido');
+
+                $("#formulario").validate({
+                    rules: {
+                        cedula: {
+                            required: true,
+                            minlength: 10,
+                            maxlength: 10,
+                            number: true,
+                            validarCedula: true
+                        },
+                        nombres: {
+                            required: true,
+                            minlength: 4,
+                            maxlength: 30,
+                            soloLetras: true
+                        },
+                        apellidos: {
+                            required: true,
+                            minlength: 4,
+                            maxlength: 30,
+                            soloLetras: true
+                        },
+                        registro: {
+                            required: true,
+                            registro: true
+                        },
+                        correo: {
+                            required: true,
+                            email: true
+                        },
+                        contraseña: {
+                            required: true
+                        }
+                    },
+                    submitHandler: function () {
+                        guardar();
+                    }
+                });
+            }
+
+
+            $(document).ready(function () {
+                cargarEspecialidades();
+                validar();
+
+            });
+
+            function guardar() {
+                var peticion = '<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">';
+                peticion += '<Body>';
+                peticion += '<registro_medico xmlns="urn:server">';
+                peticion += '<cedula>' + $("#cedula").val() + '</cedula>';
+                peticion += '<apellidos>' + $("#apellidos").val() + '</apellidos>';
+                peticion += '<nombres>' + $("#nombres").val() + '</nombres>';
+                peticion += '<especialidad>' + $("#especialidad").val() + '</especialidad>';
+                peticion += '<correo>' + $("#correo").val() + '</correo>';
+                peticion += '<nro_reg>' + $("#registro").val() + '</nro_reg>';
+                peticion += '<clave>' + $("#contraseña").val() + '</clave>';
+                peticion += '</registro_medico>';
+                peticion += '</Body>';
+                peticion += '</Envelope>';
+                $.ajax({
+                    url: URL_SOAP,
+                    data: peticion,
+                    type: 'POST',
+                    dataType: 'xml',
+                    contentType: 'text/xml',
+                    success: function (data, textStatus, jqXHR) {
+                        if (jqXHR.status == '200') {
+                            alert("Se ha registrado su cuenta, por favor inciar secion");
+                            location.href = "Inicio.html";
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR.responseText);
+                        manejoErrores(jqXHR.responseText);
+                    }
+                });
+            }
+
+        </script> 
+
+    </head>
+
+
+    <body>
+        <form class="formulario" id="formulario">
+            <div id="error" > </div>
+            <h1> Registrate </h1>
+            <div class="contenedor">
+
+                <div class="input-contenedor ">
+                    <i class="fas fa-id-card icon"></i>
+                    <input type="text" placeholder="Cedula" name="cedula" id="cedula" >
+                </div>
+
+                <div class="input-contenedor ">
+                    <i class="fas fa-user-alt icon"></i>
+                    <input type="text" placeholder="Apellido" name="apellidos" id="apellidos" >
+                </div>
+
+                <div class="input-contenedor ">
+                    <i class="fas fa-user-alt icon"></i>
+                    <input type="text" placeholder="Nombre" name="nombres" id="nombres" >
+                </div>
+
+                <div class="input-contenedor ">
+                    <i class="fas fa-users icon"></i>
+                    <SELECT name="especialidad" SIZE=1 title="Especialidad" class="custom-select combo" id="especialidad" > 
+                    </SELECT> 
+                </div>
+
+                <div class="input-contenedor ">
+                    <i class="far fa-question-circle icon"></i>
+                    <input type="text" placeholder="Registro" name="registro" id="registro" >
+                </div>
+
+                <div class="input-contenedor ">
+                    <i class="fas fa-envelope icon"></i>
+                    <input type="email" placeholder="Correo electronico" name="correo" id="correo" >
+                </div>
+
+                <div class="input-contenedor ">
+                    <i class="fas fa-lock icon"></i>
+                    <input type="password" placeholder="Contraseña" name="contraseña" id="contraseña" >
+                </div>
+
+
+                <input type="submit" value="Registrar" class="button" id="registrar">
+                <p>Al registrarte, aceptas nuestras Condiciones de uso y Politica de privacidad</p>
+                <p>¿Ya tienes una cuenta? <a class="link" href="Inicio.html" >Iniciar Sesión</a> </p>
+
+            </div>
+
+
+        </form>
+    </body>
+</html>

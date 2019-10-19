@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--
+Haz un programa que sirva para resolver ecuaciones de segundo grado del tipo
+ax2 + bx + c = 0.
+-->
+<html>
+    <head>
+        <title>Ejercicio 7</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#ecuacion').click(function (event) {
+                    var a = parseInt((document.getElementById('a')).value);
+                    console.log(a);
+                    var b = parseInt((document.getElementById('b')).value);
+                    console.log(b);
+                    var c = parseInt((document.getElementById('c')).value);
+                    console.log(c);
+                    var s1 = (((-1) * b) + (Math.sqrt(Math.pow(b, 2) - (4 * a * c)))) / (2 * a);
+                    console.log(s1);
+                    var s2 = (((-1) * b) - (Math.sqrt(Math.pow(b, 2) - (4 * a * c)))) / (2 * a);
+                    if (s1.toString() == 'NaN' && s2.toString() == 'NaN') {
+                        alert("No hay solucion");
+                    } else if (s1.toString() == 'NaN') {
+                        alert("x:" + s2);
+                    } else if (s2.toString() == 'NaN') {
+                        alert("x: " + s1);
+                    } else {
+                        alert("Solucion 1: " + s1 + "\n" +
+                                "Solucion 2: " + s2);
+                    }
+
+                });
+            });
+
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <center>
+                <h2 style="color: black">Ecuaciones de segundo grado</h2>
+
+                        <h3>Ecuación</h3>
+                <form><font color="black"><b>
+                        
+                        <input type="text" id="a" name="Ea" size="2">  x<sup>2</sup> 
+                        + <input type="text" id="b" name="Eb" size="2">  x  
+                        + <input type="text" id="c" name="Ec" size="2"> =  0</b></font>
+                        <br><br><input type="button" id="ecuacion" value="Resolver" onClick="ResolverEc()"><br><br>
+
+                    <input type="reset"><br><br><br><br><br></form>
+
+        </div>
+        <div class="container" id="resp"> </div>
+    </body>
+</html>

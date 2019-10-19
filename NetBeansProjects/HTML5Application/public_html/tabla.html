@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
+        crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
+        crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+              crossorigin="anonymous">
+        <script language="javascript" type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script> 
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/localization/messages_es.js"></script>
+        <script src="logica.js"></script>
+        <script>
+            $(document).ready(function () {
+                verificarNoInicioSesion();
+                 var usuario = '<a style="color:green" class="nav-link disabled" href="Bienvenido'
+                 + localStorage['user'] + '</a>';
+                 $("#usuario").html(usuario);
+                //console.log("hola");
+                listarPaciente();
+            });
+        </script>
+    </head>
+    <body>
+        <div id="mensaje" > </div>
+        <div class="nav justify-content-end">
+            <nav class="nav">
+                <a class="nav-link" href="#">Listar Pacientes</a>
+                <a class="nav-link active" href="agregaPaciente.html">Nuevo</a>
+                <a class="nav-link active" href="#" id="usuario"></a>
+                <a class="nav-link" id="cerrar" onclick="cerrar_sesion()">Cerrar Sesion</a>
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </nav>
+        </div>
+        <div class="container" >
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" >Nro</th>
+                        <th scope="col" >Cedula</th>
+                        <th scope="col">Paciente</th>
+                    </tr>
+                </thead>
+                <tbody class="cuerpo" id="cuerpo">
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal -->
+
+        <div class="modal fade" id="registroPaciente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modificar Paciente</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div ></div>
+                        <form id="form_registro">
+                            <div id="error"></div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Cedula:</label>
+                                <input type="text" class="form-control" name="cedula" id="cedula1">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Apellidos:</label>
+                                <input type="text" class="form-control" name="apellido" id="apellidos1">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Nombres:</label>
+                                <input type="text" class="form-control" name="nombre" id="nombres1">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Fecha de nacimiento:</label>
+                                <input id="fecha1" type="date" name="fecha" class="form-control" >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Edad:</label>
+                                <input type="text" class="form-control" name="edad" id="edad1" readonly="true">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Direccion:</label>
+                                <input type="text" class="form-control" name="direccion" id="direccion1">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Celular:</label>
+                                <input type="number" class="form-control" name="celular" id="celular1">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Telefono:</label>
+                                <input type="number" class="form-control" name="telefono" id="telefono1">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect2"> Sexo </label>
+                                <select  class="form-control" id="genero" name="sexo" >
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                            </div> 
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Habitos:</label>
+                                <input type="text" class="form-control" name="habitos" id="habito1">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">enfermedades:</label>
+                                <input type="text" class="form-control" name="enfermedades" id="enfermedades1">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">enfermedades hereditarias:</label>
+                                <input type="text" class="form-control" name="habitos" id="enfermedades_h">
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary" id="actualizar" name="actualizar" 
+                                        onclick="guardarDatosModificados(externalPaciente)">Modificar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

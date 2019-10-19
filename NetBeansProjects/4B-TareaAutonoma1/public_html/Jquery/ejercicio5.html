@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+El siguiente programa tiene errores que hay que corregir. Se trata de listar en un
+formulario del tipo textarea una lista de valores de grados centígrados a grados
+Farenheit. Efectuar las correcciones para que funcione.
+-->
+<html>
+    <head>
+        <title>Ejercicio 5</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
+        crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
+        crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+              crossorigin="anonymous">
+
+        <script>
+            $(document).ready(function () {
+                $('#convertir').click(function (event) {
+                    var farenheit, celsius;
+                    for (var i = -2; i <= 12; i++) {
+                        celsius = 10 * i;
+                        document.getElementById("cen").value += celsius + "\n";
+                        farenheit = 32 + (celsius * (9 / 5));
+                        document.getElementById("far").value += farenheit + "\n";
+                        if (celsius == 0) {
+                            var s = celsius + "Punto congelacion delAgua\n"
+                            alert(s);
+                        }
+                        if (celsius == 100) {
+                            s = celsius + "Punto de ebullicíon del Agua\n";
+                            alert(s);
+                        }
+
+                    }
+                });
+            });
+
+        </script>
+
+
+    </head>
+    <body>
+        <h1 style="text-align:center">Bienvenido</h1>
+        <div class="container">
+            <form>
+                <div class="form-group" >
+                    <label for="centigrado" id="c" style="float: left">Grados Centigrados</label>
+                    <label for="farenheit" id="f" style="float: right">Grados Farenheit</label>  
+                </div>
+                <br>
+                <br>
+
+                <div class="form-group">
+                    <textarea id="cen" name="centigrados" rows="10" cols="50" style="float: left"></textarea>
+                    <textarea id="far" name="farenheit" rows="10" cols="50" style="float:right "></textarea>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+            </form>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br><br>
+        <br>
+        <div  style="float: center">
+            <button type="button" class="btn btn-primary" 
+                    id="convertir" >Convertir</button>
+        </div>
+
+        <br>
+
+
+    </body>
+</html>

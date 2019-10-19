@@ -1,0 +1,158 @@
+
+<script src="/javascripts/utilidades.js"></script>
+<script>
+    /* $(document).ready(function () {
+     $("#boton").click(function () {
+     buscar();
+     });
+     function buscar() {
+     var url = "http://localhost:3000/users/buscar_paciente";
+     var criterio = $("#criterio").val();
+     var texto = $("#texto").val();
+     $.ajax({
+     url: url,
+     dataType: 'json',
+     data: 'criterio=' + criterio + '&texto=' + texto,
+     success: function (data, textStatus, jqXHR) {
+     console.log(data);
+     var html = '';
+     $.each(data, function (index, item) {
+     html += '<tr>';
+     html += '<td>' + (index*1 + 1) + '</td>';
+     html += '<td>' + item.cedula + '</td>';
+     html += '<td>' + item.paciente + '</td>';
+     html += '<td>' + item.nro + '</td>';
+     html += '<td><a href="/administracion/paciente/modificar/' + item.external + '" class="btn btn-primary"> Modificar</a></td>';
+     html += '</tr>';
+     });
+     $("#cuerpo").html(html);
+     var texto = $("#texto").val("");
+     }
+     });
+     }
+     });*/
+</script>
+<script>
+    $(document).ready(function () {
+        $("#boton").click(function () {
+            buscar();
+        });
+        function buscar() {
+            var url = "http://localhost:3000/users/buscar_consulta";
+            var criterio = $("#criterio").val();
+            var texto = $("#texto").val();
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                data: 'criterio=' + criterio + '&texto=' + texto,
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data);
+                    $("#cedula").val(data[0].cedula);
+                    $("#paciente").val(data[0].paciente);
+                    $("#enf").val(data[0].enf);
+                    $("#enf_her").val(data[0].enf_her);
+                    $("#hab").val(data[0].habitos);
+                    $("#nro").val(data[0].nro);
+                    $("#idHistoria").val(data[0].external);
+                }
+            });
+        }
+           
+        cambiarFecha();            
+        function cambiarFecha() {
+            //alert(fecha);
+            var d = new Date();
+            //alert((d.getDate()+"/"+(d.getMonth()+1))+"/"+d.getFullYear());
+            var mes= (d.getMonth()+1);
+            var dia= d.getDate();
+            var fecha = (d.getFullYear()+"-"+rellenarCeros(mes,2)+"-"+rellenarCeros(dia,2));
+            console.log(fecha);
+            $("#fecha").val(fecha);
+        }
+        function rellenarCeros(texto, nro_cero){
+            texto= texto+"";
+            if(texto.length < nro_cero){
+                var aux= "";
+                for(var i= texto.length ; i<nro_cero ; i++ ){
+                    aux+="0";
+                }
+                return aux+texto;
+            }else{
+                return texto;
+            }
+        }
+    });
+</script>
+<div class="container" style="margin-top: 20px;">    
+    <div class="panel panel-primary">
+        <div class="panel-heading">Listado de Consultas Medicas</div>
+        <div class="panel-body">
+        
+            <div>
+                
+                <select id="criterio" class="btn btn-secondary"> 
+                    <option value="todos"> Todos </option>
+                    <option value="cedula"> Cedula </option>
+                    <option value="historia"> Nro de historia </option>
+                    <option value="apellidos"> Apellidos </option>                
+                </select>
+                <input  id="texto" type="text" placeholder="Ingrese el dato a buscar" />
+                <button id="boton" type="button" class="btn btn-dark" > Buscar </button>
+            </div>
+            <% if(typeof msg != 'undefined') { %>
+            <% if(typeof msg.error != 'undefined' && msg.error.length > 0) { %>
+            <div class="form-group">
+                <div class="label label-danger" style="font-size: 12px">
+                    <%= msg.error %>
+                </div>                        
+            </div>                  
+            <% } %>
+            <% if(typeof msg.info != 'undefined' && msg.info.length > 0) { %>
+            <div class="form-group">
+                <div class="label label-success" style="font-size: 12px">
+                    <%= msg.info %>
+                </div>                        
+            </div>                  
+            <% } %>
+            <% } %>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nro</th><th>Medico</th><th>Nro Historia</th><th>Diagnostico</th><th>Motivo</th><th>Receta</th><th>Fecha</th><th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpo">
+                    <% listado.forEach(function (item, index) { %>
+                    <tr>
+                        <td>
+                            <%= (index + 1) %>
+                        </td>
+                        <td>
+                            <%= item.persona.apellidos %> <%= item.persona.nombres %>
+                        </td>
+                        <td>
+                            <%= item.historium.nro_historia %>
+                        </td>
+                        <td>
+                            <%= item.diagnostico %>
+                        </td>
+                        <td>
+                            <%= item.motivo %>
+                        </td>
+                        <td>
+                            <%= item.receta %>
+                        </td>
+                        <td>
+                            <%= item.fecha %>
+                        </td>
+                        <td>
+                            <a href="/administracion/consulta/modificar/<%= item.external_id %>" class="btn btn-primary"> Modificar</a>
+
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
